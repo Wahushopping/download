@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Twitter Video Downloader</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#0f172a;
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+}
+
+.container{
+background:#1e293b;
+padding:30px;
+border-radius:10px;
+width:420px;
+text-align:center;
+}
+
+input{
+width:95%;
+padding:10px;
+border:none;
+border-radius:6px;
+}
+
+button{
+margin-top:15px;
+padding:10px 20px;
+background:#1da1f2;
+border:none;
+border-radius:6px;
+color:white;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Twitter Video Downloader</h2>
+
+<input id="url" placeholder="Paste Twitter Video Link">
+
+<br>
+
+<button onclick="download()">Download</button>
+
+</div>
+
+<script>
+
+function download(){
+
+let url=document.getElementById("url").value
+
+window.open(`http://localhost:3000/download?url=${url}`)
+
+}
+
+</script>
+
+</body>
+</html>
