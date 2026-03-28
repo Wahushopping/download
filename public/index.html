@@ -5,9 +5,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Video Downloader</title>
+<title>Instagram Video Downloader</title>
 
-<!-- Font Awesome Icons -->
+<!-- Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
@@ -26,6 +26,7 @@ justify-content:center;
 gap:20px;
 background:#020617;
 padding:15px;
+flex-wrap:wrap;
 }
 
 .navbar a{
@@ -37,14 +38,13 @@ display:flex;
 align-items:center;
 gap:8px;
 transition:0.3s;
-font-size:14px;
 }
 
 .navbar a:hover{
 background:#1e293b;
 }
 
-/* CONTAINER */
+/* MAIN */
 .main{
 display:flex;
 justify-content:center;
@@ -59,6 +59,11 @@ border-radius:12px;
 width:420px;
 text-align:center;
 box-shadow:0 10px 30px rgba(0,0,0,0.5);
+}
+
+h2{
+margin-bottom:20px;
+color:#e1306c;
 }
 
 input{
@@ -91,8 +96,12 @@ background:#ff4d88;
 
 <body>
 
-<!-- 🔥 NAVBAR WITH ICONS -->
+<!-- NAVBAR -->
 <div class="navbar">
+
+<a href="index.html">
+<i class="fab fa-instagram"></i> Instagram
+</a>
 
 <a href="facebook.html">
 <i class="fab fa-facebook"></i> Facebook
@@ -112,14 +121,14 @@ background:#ff4d88;
 
 </div>
 
-<!-- MAIN CONTENT -->
+<!-- CONTENT -->
 <div class="main">
 
 <div class="container">
 
-<h2>Instagram Video Downloader</h2>
+<h2><i class="fab fa-instagram"></i> Instagram Video Downloader</h2>
 
-<input id="url" placeholder="Paste Instagram Reel/Post Link">
+<input id="url" placeholder="Paste Instagram Reel / Post Link">
 
 <br>
 
@@ -134,6 +143,11 @@ background:#ff4d88;
 function download(){
 
 let url=document.getElementById("url").value
+
+if(!url){
+alert("Please enter Instagram URL")
+return
+}
 
 window.open(`https://download-fc72.onrender.com/download?url=${encodeURIComponent(url)}`)
 
