@@ -7,54 +7,31 @@ const app = express()
 app.use(cors())
 app.use(express.static("public"))
 
-app.get("/download",(req,res)=>{
+app.get("/download", (req, res) => {
+  const url = req.query.url
 
-const url=req.query.url
+  if (!url) {
+    return res.send("No URL")
+  }
 
-if(!url){
-return res.send("No URL")
-}
+  res.setHeader(
+    "Content-Disposition",
+    'attachment; filename="video.mp4"'
+  )
 
-res.setHeader(
-"Content-Disposition",
-'attachment; filename="instagram.mp4"'
-)
+  const ytdlp = spawn("yt-dlp", [
+    "-f", "mp4",
+    "-o", "-",
+    url
+  ])
 
-const ytdlp=spawn("yt-dlp",[
-"-f","mp4",
-"-o","-",
-url
-])
+  ytdlp.stdout.pipe(res)
 
-ytdlp.stdout.pipe(res)
-
-ytdlp.stderr.on("data",(data)=>{
-console.log(data.toString())
+  ytdlp.stderr.on("data", (data) => {
+    console.log(data.toString())
+  })
 })
 
-})
-app.get("/download",(req,res)=>{
-
-const url=req.query.url
-
-if(!url){
-return res.send("No URL")
-}
-
-res.setHeader(
-"Content-Disposition",
-'attachment; filename="video.mp4"'
-)
-
-const ytdlp=spawn("yt-dlp",[
-"-f","mp4",
-"-o","-",
-url
-])
-
-ytdlp.stdout.pipe(res)
-
-})
-app.listen(3000,()=>{
-console.log("Server running on port 3000")
+app.listen(3000, () => {
+  console.log("Server running on port 3000")
 })
