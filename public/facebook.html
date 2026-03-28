@@ -26,6 +26,7 @@ justify-content:center;
 gap:20px;
 background:#020617;
 padding:15px;
+flex-wrap:wrap;
 }
 
 .navbar a{
@@ -73,6 +74,7 @@ border-radius:8px;
 outline:none;
 }
 
+/* BUTTON */
 button{
 margin-top:15px;
 padding:12px 20px;
@@ -87,6 +89,13 @@ transition:0.3s;
 
 button:hover{
 background:#3b8cff;
+}
+
+/* ERROR */
+.error{
+margin-top:10px;
+color:#ff4d4d;
+font-size:14px;
 }
 
 </style>
@@ -133,18 +142,32 @@ background:#3b8cff;
 
 <button onclick="download()">Download</button>
 
+<div id="error" class="error"></div>
+
 </div>
 
 </div>
 
 <script>
 
+function isValidFacebook(url){
+return url.includes("facebook.com") || url.includes("fb.watch")
+}
+
 function download(){
 
 let url=document.getElementById("url").value
+let error=document.getElementById("error")
+
+error.innerText=""
 
 if(!url){
-alert("Please enter Facebook URL")
+error.innerText="Please enter Facebook URL"
+return
+}
+
+if(!isValidFacebook(url)){
+error.innerText="Enter valid Facebook link"
 return
 }
 
