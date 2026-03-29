@@ -10,7 +10,7 @@
 
 <meta name="keywords" content="instagram downloader, download instagram video, reels downloader, instagram video download, instagram photo download, ig downloader, save instagram reels">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <!-- Open Graph (for social sharing) -->
 <meta property="og:title" content="Free Instagram Video Downloader">
@@ -206,18 +206,55 @@ background:#475569;
   ⏳ Downloading... Please wait
 </p>
 </div>
+<div id="previewBox" style="display:none; text-align:center; margin-top:20px;">
 
+  <video id="previewVideo" controls width="300" style="display:none;"></video>
+  <img id="previewImage" width="300" style="display:none; border-radius:10px;"/>
+
+  <p id="previewText" style="margin-top:10px;"></p>
+
+</div>
 </div>
 
 <script>
 
+let currentUrl = ""
+
 async function pasteText(){
-try{
-const text = await navigator.clipboard.readText()
-document.getElementById("url").value = text
-}catch(err){
-alert("Paste not allowed. Please paste manually.")
+  try{
+    const text = await navigator.clipboard.readText()
+    document.getElementById("url").value = text
+    showPreview(text)
+  }catch(err){
+    alert("Paste not allowed")
+  }
 }
+
+function showPreview(url){
+
+  if(!url) return
+
+  currentUrl = url
+
+  document.getElementById("previewBox").style.display = "block"
+
+  let video = document.getElementById("previewVideo")
+  let image = document.getElementById("previewImage")
+  let text = document.getElementById("previewText")
+
+  video.style.display = "none"
+  image.style.display = "none"
+
+  // simple preview logic
+  if(url.includes("jpg") || url.includes("png")){
+    image.style.display = "block"
+    image.src = url
+    text.innerText = "Image Preview"
+  }else{
+    video.style.display = "block"
+    video.src = url
+    text.innerText = "Video Preview"
+  }
 }
 
 function download(){
@@ -229,26 +266,26 @@ function download(){
     return
   }
 
-  // show loading text
+  currentUrl = url
+
+  let btn = event.target
+
+  // show loading
   document.getElementById("loadingText").style.display = "block"
+  btn.innerText = "Downloading..."
+  btn.disabled = true
 
-  // disable button (optional)
-  event.target.innerText = "Downloading..."
-  event.target.disabled = true
-
-  // create hidden iframe (NO blank page 🔥)
+  // hidden iframe download
   let iframe = document.createElement("iframe")
   iframe.style.display = "none"
-
   iframe.src = `https://download-fc72.onrender.com/download?url=${encodeURIComponent(url)}`
-
   document.body.appendChild(iframe)
 
-  // reset after few seconds
+  // after 5 sec show finished
   setTimeout(()=>{
-    document.getElementById("loadingText").style.display = "none"
-    event.target.innerText = "Download"
-    event.target.disabled = false
+    document.getElementById("loadingText").innerText = "✅ Download Finished"
+    btn.innerText = "Download Again"
+    btn.disabled = false
   },5000)
 }
 
