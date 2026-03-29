@@ -19,12 +19,15 @@ app.get("/download", (req, res) => {
     'attachment; filename="video.mp4"'
   )
 
-  const ytdlp = spawn("yt-dlp", [
-    "-f", "bestvideo+bestaudio/best",
-    "--merge-output-format", "mp4",
-    "-o", "-",
-    url
-  ])
+ const ytdlp = spawn("yt-dlp", [
+  "-f", "bestvideo+bestaudio/best",
+  "--merge-output-format", "mp4",
+  "--no-check-certificate",
+  "--geo-bypass",
+  "--no-playlist",
+  "-o", "-",
+  url
+])
 
   ytdlp.stdout.pipe(res)
 
