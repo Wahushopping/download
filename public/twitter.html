@@ -3,7 +3,8 @@
 
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <title>Twitter Video Downloader – Download X Videos Online Free</title>
 
 <meta name="description" content="Download Twitter videos online for free. Fast and secure X video downloader. Save videos in HD without login.">
@@ -167,32 +168,104 @@ background:#3bb3ff;
 
 <br>
 <button onclick="download()">Download</button>
-
+<p id="loadingText" style="display:none; margin-top:10px; color:#22c55e;">
+  ⏳ Downloading... Please wait
+</p>
 </div>
 
 </div>
+<div id="previewBox" style="display:none; text-align:center; margin-top:20px;">
 
+  <video id="previewVideo" controls width="300" style="display:none;"></video>
+  <img id="previewImage" width="300" style="display:none; border-radius:10px;"/>
+
+  <p id="previewText" style="margin-top:10px;"></p>
+
+</div>
 <script>
+
+let currentUrl = ""
+
 async function pasteText(){
   try{
     const text = await navigator.clipboard.readText()
     document.getElementById("url").value = text
+    showPreview(text)
   }catch(err){
     alert("Paste not allowed")
   }
 }
 
+async function showPreview(url){
+
+  if(!url) return
+
+  document.getElementById("previewBox").style.display = "block"
+
+  let video = document.getElementById("previewVideo")
+  let image = document.getElementById("previewImage")
+  let text = document.getElementById("previewText")
+
+  video.style.display = "none"
+  image.style.display = "none"
+
+  text.innerText = "⏳ Loading preview..."
+
+  try{
+    let res = await fetch(`https://download-fc72.onrender.com/info?url=${encodeURIComponent(url)}`)
+    let data = await res.json()
+
+    if(data.error){
+      text.innerText = "❌ Preview not available"
+      return
+    }
+
+    // show thumbnail first
+    image.style.display = "block"
+    image.src = data.thumbnail
+
+    text.innerText = data.title
+
+    // load video
+    video.src = data.video
+    video.style.display = "block"
+
+  }catch(err){
+    text.innerText = "❌ Error loading preview"
+  }
+}
 function download(){
-  let url=document.getElementById("url").value
+
+  let url = document.getElementById("url").value
 
   if(!url){
-    alert("Please enter Twitter/X URL")
+    alert("Please enter Twitter URL")
     return
   }
 
-  window.open(`https://download-fc72.onrender.com/download?url=${encodeURIComponent(url)}`)
-}
-</script>
+  currentUrl = url
 
+  let btn = event.target
+
+  // show loading
+  document.getElementById("loadingText").style.display = "block"
+  btn.innerText = "Downloading..."
+  btn.disabled = true
+
+  // hidden iframe download
+  let iframe = document.createElement("iframe")
+  iframe.style.display = "none"
+  iframe.src = `https://download-fc72.onrender.com/download?url=${encodeURIComponent(url)}`
+  document.body.appendChild(iframe)
+
+  // after 5 sec show finished
+  setTimeout(()=>{
+    document.getElementById("loadingText").innerText = "✅ Download Finished"
+    btn.innerText = "Download Again"
+    btn.disabled = false
+  },5000)
+}
+
+</script>
 </body>
 </html>
