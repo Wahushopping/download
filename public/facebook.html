@@ -5,7 +5,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Facebook Video Downloader</title>
+<title>Facebook Video Downloader – Download FB Videos Online Free</title>
+
+<meta name="description" content="Download Facebook videos online for free. Fast and secure FB video downloader. Save videos in HD without login.">
+
+<meta name="keywords" content="facebook video downloader, download fb video, fb downloader, facebook video download online">
+
+<link rel="canonical" href="https://download-alpha-six.vercel.app/facebook.html">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Facebook Video Downloader">
+<meta property="og:description" content="Download Facebook videos instantly in HD quality.">
+<meta property="og:url" content="https://download-alpha-six.vercel.app/facebook.html">
 
 <!-- Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -131,17 +142,20 @@ font-size:14px;
 
 <!-- CONTENT -->
 <div class="main">
+<h1>Facebook Video Downloader</h1>
+<p>Download Facebook videos in HD quality for free without login.</p>
 
 <div class="container">
 
 <h2><i class="fab fa-facebook"></i> Facebook Video Downloader</h2>
 
-<input id="url" placeholder="Paste Facebook Video Link">
+<div class="input-box">
+  <input id="url" placeholder="Paste Facebook Video Link">
+  <button class="paste-btn" onclick="pasteText()">Paste</button>
+</div>
 
 <br>
-
 <button onclick="download()">Download</button>
-
 <div id="error" class="error"></div>
 
 </div>
@@ -149,32 +163,37 @@ font-size:14px;
 </div>
 
 <script>
+async function pasteText(){
+  try{
+    const text = await navigator.clipboard.readText()
+    document.getElementById("url").value = text
+  }catch(err){
+    alert("Paste not allowed")
+  }
+}
 
 function isValidFacebook(url){
-return url.includes("facebook.com") || url.includes("fb.watch")
+  return url.includes("facebook.com") || url.includes("fb.watch")
 }
 
 function download(){
+  let url=document.getElementById("url").value
+  let error=document.getElementById("error")
 
-let url=document.getElementById("url").value
-let error=document.getElementById("error")
+  error.innerText=""
 
-error.innerText=""
+  if(!url){
+    error.innerText="Please enter Facebook URL"
+    return
+  }
 
-if(!url){
-error.innerText="Please enter Facebook URL"
-return
+  if(!isValidFacebook(url)){
+    error.innerText="Enter valid Facebook link"
+    return
+  }
+
+  window.open(`https://download-fc72.onrender.com/download?url=${encodeURIComponent(url)}`)
 }
-
-if(!isValidFacebook(url)){
-error.innerText="Enter valid Facebook link"
-return
-}
-
-window.open(`https://download-fc72.onrender.com/download?url=${encodeURIComponent(url)}`)
-
-}
-
 </script>
 
 </body>
