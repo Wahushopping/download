@@ -16,33 +16,52 @@ app.get("/download", (req, res) => {
     return res.send("No URL")
   }
 
+  // ❌ block login/private links
+  if (url.includes("login") || url.includes("accounts")) {
+    return res.send("❌ Private or login-required video not supported")
+  }
+
   const filePath = path.join(__dirname, `video-${Date.now()}.mp4`)
 
   const ytdlp = spawn("yt-dlp", [
-  "-f", "bv*+ba/b",   // 🔥 BEST universal fix
-  "--no-playlist",
-  "--geo-bypass",
-  "--no-check-certificate",
-  "--force-overwrites",
-  "-o", filePath,
-  url
-])
-
-  ytdlp.on("close", () => {
-    // send file after download
-    res.download(filePath, "video.mp4", () => {
-      // delete file after sending
-      fs.unlinkSync(filePath)
-    })
-  })
+    "-f", "bv*+ba/b",
+    "--no-playlist",
+    "--geo-bypass",
+    "--no-check-certificate",
+    "--force-overwrites",
+    "-o", filePath,
+    url
+  ])
 
   ytdlp.stderr.on("data", (data) => {
     console.log(data.toString())
   })
 
+  ytdlp.on("close", (code) => {
+
+    // ❌ yt-dlp failed
+    if (code !== 0) {
+      return res.send("❌ Download failed (video may be private/restricted)")
+    }
+
+    // ❌ file not created
+    if (!fs.existsSync(filePath)) {
+      return res.send("❌ File not found (download failed)")
+    }
+
+    // ✅ send file
+    res.download(filePath, "video.mp4", () => {
+      // ✅ safe delete
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath)
+      }
+    })
+
+  })
+
   ytdlp.on("error", (err) => {
     console.log("Error:", err)
-    res.end()
+    res.send("❌ Server error")
   })
 })
 
