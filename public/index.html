@@ -230,11 +230,9 @@ async function pasteText(){
   }
 }
 
-function showPreview(url){
+async function showPreview(url){
 
   if(!url) return
-
-  currentUrl = url
 
   document.getElementById("previewBox").style.display = "block"
 
@@ -245,18 +243,31 @@ function showPreview(url){
   video.style.display = "none"
   image.style.display = "none"
 
-  // simple preview logic
-  if(url.includes("jpg") || url.includes("png")){
+  text.innerText = "⏳ Loading preview..."
+
+  try{
+    let res = await fetch(`https://download-fc72.onrender.com/info?url=${encodeURIComponent(url)}`)
+    let data = await res.json()
+
+    if(data.error){
+      text.innerText = "❌ Preview not available"
+      return
+    }
+
+    // show thumbnail first
     image.style.display = "block"
-    image.src = url
-    text.innerText = "Image Preview"
-  }else{
+    image.src = data.thumbnail
+
+    text.innerText = data.title
+
+    // load video
+    video.src = data.video
     video.style.display = "block"
-    video.src = url
-    text.innerText = "Video Preview"
+
+  }catch(err){
+    text.innerText = "❌ Error loading preview"
   }
 }
-
 function download(){
 
   let url = document.getElementById("url").value
