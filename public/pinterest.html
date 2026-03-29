@@ -5,7 +5,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Pinterest Video Downloader</title>
+<title>Pinterest Video Downloader – Download Pinterest Videos & Images</title>
+  
+<meta name="description" content="Download Pinterest videos online for free. Fast and secure Pinterest video downloader. Save videos in HD without login.">
+
+<meta name="keywords" content="Pinterest video downloader, download pinterest video, pinterest downloader, pinterest video download online">
+
+<link rel="canonical" href="https://download-alpha-six.vercel.app/pinterest.html">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Pinterest Video Downloader">
+<meta property="og:description" content="Download Pinterest videos instantly in HD quality.">
+<meta property="og:url" content="https://download-alpha-six.vercel.app/pinterest.html">
 
 <!-- Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -123,15 +134,19 @@ background:#ff1f4b;
 
 <!-- CONTENT -->
 <div class="main">
+<h1>Pinterest Video Downloader</h1>
+<p>Download Pinterest videos in HD quality for free without login.</p>
 
 <div class="container">
 
 <h2><i class="fab fa-pinterest"></i> Pinterest Video Downloader</h2>
 
-<input id="url" placeholder="Paste Pinterest Video Link">
+<div class="input-box">
+  <input id="url" placeholder="Paste Pinterest Video Link">
+  <button class="paste-btn" onclick="pasteText()">Paste</button>
+</div>
 
 <br>
-
 <button onclick="download()">Download</button>
 
 </div>
@@ -139,21 +154,25 @@ background:#ff1f4b;
 </div>
 
 <script>
+async function pasteText(){
+  try{
+    const text = await navigator.clipboard.readText()
+    document.getElementById("url").value = text
+  }catch(err){
+    alert("Paste not allowed")
+  }
+}
 
 function download(){
+  let url=document.getElementById("url").value
 
-let url=document.getElementById("url").value
+  if(!url){
+    alert("Please enter Pinterest URL")
+    return
+  }
 
-if(!url){
-alert("Please enter Pinterest URL")
-return
+  window.open(`https://download-fc72.onrender.com/download?url=${encodeURIComponent(url)}`)
 }
-
-window.open(`https://download-fc72.onrender.com/download?url=${encodeURIComponent(url)}`)
-
-}
-
 </script>
-
 </body>
 </html>
