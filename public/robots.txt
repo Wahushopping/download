@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://download-alpha-six.vercel.app/sitemap.xml
