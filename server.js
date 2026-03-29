@@ -1,6 +1,8 @@
 const express = require("express")
 const cors = require("cors")
 const { spawn } = require("child_process")
+const fs = require("fs")
+const path = require("path")
 process.env.PATH = process.env.PATH + ":" + __dirname + "/ffmpeg-bin"
 const app = express()
 
@@ -14,21 +16,24 @@ app.get("/download", (req, res) => {
     return res.send("No URL")
   }
 
-  res.setHeader(
-    "Content-Disposition",
-    'attachment; filename="video.mp4"'
-  )
+  const filePath = path.join(__dirname, "video.mp4")
 
-const ytdlp = spawn("yt-dlp", [
-  "-f", "best",   // ✅ changed here
-  "--no-check-certificate",
-  "--geo-bypass",
-  "--no-playlist",
-  "-o", "-",
-  url
-])
+  const ytdlp = spawn("yt-dlp", [
+    "-f", "best",
+    "--no-check-certificate",
+    "--geo-bypass",
+    "--no-playlist",
+    "-o", filePath,   // ✅ save file first
+    url
+  ])
 
-  ytdlp.stdout.pipe(res)
+  ytdlp.on("close", () => {
+    // send file after download
+    res.download(filePath, "video.mp4", () => {
+      // delete file after sending
+      fs.unlinkSync(filePath)
+    })
+  })
 
   ytdlp.stderr.on("data", (data) => {
     console.log(data.toString())
@@ -39,6 +44,8 @@ const ytdlp = spawn("yt-dlp", [
     res.end()
   })
 })
+
+
 app.get("/info", (req, res) => {
   const url = req.query.url
 
