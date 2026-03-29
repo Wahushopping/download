@@ -4,8 +4,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Twitter Video Downloader – Download X Videos Online Free</title>
 
-<title>Twitter (X) Video Downloader</title>
+<meta name="description" content="Download Twitter videos online for free. Fast and secure X video downloader. Save videos in HD without login.">
+
+<meta name="keywords" content="twitter video downloader, download x video, x downloader, twitter video download online">
+
+<link rel="canonical" href="https://download-alpha-six.vercel.app/twitter.html">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Twitter Video Downloader">
+<meta property="og:description" content="Download Twitter videos instantly in HD quality.">
+<meta property="og:url" content="https://download-alpha-six.vercel.app/twitter.html">
 
 <!-- Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -120,6 +130,8 @@ background:#3bb3ff;
 </a>
 
 </div>
+  <h1>Platform Video Downloader</h1>
+<p>Download videos easily in HD quality without login.</p>
 
 <!-- CONTENT -->
 <div class="main">
@@ -128,31 +140,38 @@ background:#3bb3ff;
 
 <h2><i class="fab fa-twitter"></i> Twitter (X) Video Downloader</h2>
 
-<input id="url" placeholder="Paste Twitter / X Video Link">
+<div class="input-box">
+  <input id="url" placeholder="Paste Twitter / X Video Link">
+  <button class="paste-btn" onclick="pasteText()">Paste</button>
+</div>
 
 <br>
-
-<button onclick="download()">Download</button>
+<button onclick="download()">Download</button>"download()">Download</button>
 
 </div>
 
 </div>
 
 <script>
+async function pasteText(){
+  try{
+    const text = await navigator.clipboard.readText()
+    document.getElementById("url").value = text
+  }catch(err){
+    alert("Paste not allowed")
+  }
+}
 
 function download(){
+  let url=document.getElementById("url").value
 
-let url=document.getElementById("url").value
+  if(!url){
+    alert("Please enter Twitter/X URL")
+    return
+  }
 
-if(!url){
-alert("Please enter Twitter/X URL")
-return
+  window.open(`https://download-fc72.onrender.com/download?url=${encodeURIComponent(url)}`)
 }
-
-window.open(`https://download-fc72.onrender.com/download?url=${encodeURIComponent(url)}`)
-
-}
-
 </script>
 
 </body>
