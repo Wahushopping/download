@@ -4,8 +4,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TikTok Video Downloader – Download TikTok Videos Without Watermark</title>
 
-<title>TikTok Video Downloader</title>
+<meta name="description" content="Download TikTok videos online for free. Fast and secure TikTok video downloader. Save videos in HD without login.">
+
+<meta name="keywords" content="tiktok video downloader, download tiktok video, tiktok downloader, TikTok video download online">
+
+<link rel="canonical" href="https://download-alpha-six.vercel.app/tiktok.html">
+
+<!-- Open Graph -->
+<meta property="og:title" content="TikTok Video Downloader">
+<meta property="og:description" content="Download TikTok videos instantly in HD quality.">
+<meta property="og:url" content="https://download-alpha-six.vercel.app/tiktok.html">
+
 
 <!-- Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -123,36 +134,43 @@ background:#ff4d6d;
 
 <!-- CONTENT -->
 <div class="main">
-
+<h1>Platform Video Downloader</h1>
+<p>Download videos easily in HD quality without login.</p>
 <div class="container">
 
 <h2><i class="fab fa-tiktok"></i> TikTok Video Downloader</h2>
 
-<input id="url" placeholder="Paste TikTok Video Link">
+<div class="input-box">
+  <input id="url" placeholder="Paste TikTok Video Link">
+  <button class="paste-btn" onclick="pasteText()">Paste</button>
+</div>
 
 <br>
-
 <button onclick="download()">Download</button>
-
 </div>
 
 </div>
 
 <script>
+async function pasteText(){
+  try{
+    const text = await navigator.clipboard.readText()
+    document.getElementById("url").value = text
+  }catch(err){
+    alert("Paste not allowed")
+  }
+}
 
 function download(){
+  let url=document.getElementById("url").value
 
-let url=document.getElementById("url").value
+  if(!url){
+    alert("Please enter TikTok URL")
+    return
+  }
 
-if(!url){
-alert("Please enter TikTok URL")
-return
+  window.open(`https://download-fc72.onrender.com/download?url=${encodeURIComponent(url)}`)
 }
-
-window.open(`https://download-fc72.onrender.com/download?url=${encodeURIComponent(url)}`)
-
-}
-
 </script>
 
 </body>
