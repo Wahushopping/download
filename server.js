@@ -1,7 +1,7 @@
 const express = require("express")
 const cors = require("cors")
 const { spawn } = require("child_process")
-
+process.env.PATH = process.env.PATH + ":" + __dirname + "/ffmpeg-bin"
 const app = express()
 
 app.use(cors())
