@@ -20,7 +20,8 @@ app.get("/download", (req, res) => {
   )
 
   const ytdlp = spawn("yt-dlp", [
-    "-f", "mp4",
+    "-f", "bestvideo+bestaudio/best",
+    "--merge-output-format", "mp4",
     "-o", "-",
     url
   ])
@@ -29,6 +30,11 @@ app.get("/download", (req, res) => {
 
   ytdlp.stderr.on("data", (data) => {
     console.log(data.toString())
+  })
+
+  ytdlp.on("error", (err) => {
+    console.log("Error:", err)
+    res.end()
   })
 })
 app.get("/info", (req, res) => {
