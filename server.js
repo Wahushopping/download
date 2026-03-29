@@ -16,16 +16,17 @@ app.get("/download", (req, res) => {
     return res.send("No URL")
   }
 
-  const filePath = path.join(__dirname, "video.mp4")
+  const filePath = path.join(__dirname, `video-${Date.now()}.mp4`)
 
   const ytdlp = spawn("yt-dlp", [
-    "-f", "best",
-    "--no-check-certificate",
-    "--geo-bypass",
-    "--no-playlist",
-    "-o", filePath,   // ✅ save file first
-    url
-  ])
+  "-f", "bv*+ba/b",   // 🔥 BEST universal fix
+  "--no-playlist",
+  "--geo-bypass",
+  "--no-check-certificate",
+  "--force-overwrites",
+  "-o", filePath,
+  url
+])
 
   ytdlp.on("close", () => {
     // send file after download
