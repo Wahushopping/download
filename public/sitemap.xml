@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://download-alpha-six.vercel.app/</loc>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://download-alpha-six.vercel.app/index.html</loc>
+  </url>
+
+  <url>
+    <loc>https://download-alpha-six.vercel.app/facebook.html</loc>
+  </url>
+
+  <url>
+    <loc>https://download-alpha-six.vercel.app/pinterest.html</loc>
+  </url>
+
+  <url>
+    <loc>https://download-alpha-six.vercel.app/tiktok.html</loc>
+  </url>
+
+  <url>
+    <loc>https://download-alpha-six.vercel.app/twitter.html</loc>
+  </url>
+
+</urlset>
