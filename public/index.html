@@ -3,8 +3,27 @@
 
 <head>
 <meta charset="UTF-8">
+
+<title>Free Instagram Video Downloader – Download Reels, Videos & Photos</title>
+
+<meta name="description" content="Download Instagram videos, reels, photos online for free. Fast and secure Instagram downloader. No login required. Save HD videos instantly.">
+
+<meta name="keywords" content="instagram downloader, download instagram video, reels downloader, instagram video download, instagram photo download, ig downloader, save instagram reels">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- Open Graph (for social sharing) -->
+<meta property="og:title" content="Free Instagram Video Downloader">
+<meta property="og:description" content="Download Instagram reels, videos and photos instantly in HD. Free and easy to use.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yourwebsite.com">
+<meta property="og:image" content="https://yourwebsite.com/preview.jpg">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Instagram Video Downloader">
+<meta name="twitter:description" content="Download Instagram reels, videos & photos online for free.">
+<meta name="twitter:image" content="https://yourwebsite.com/preview.jpg">
 <title>Instagram Video Downloader</title>
 
 <!-- Icons -->
@@ -89,7 +108,32 @@ transition:0.3s;
 button:hover{
 background:#ff4d88;
 }
+.input-box{
+display:flex;
+gap:10px;
+}
 
+.input-box input{
+flex:1;
+padding:12px;
+border:none;
+border-radius:8px;
+outline:none;
+}
+
+.paste-btn{
+padding:12px 15px;
+background:#334155;
+border:none;
+border-radius:8px;
+color:white;
+cursor:pointer;
+transition:0.3s;
+}
+
+.paste-btn:hover{
+background:#475569;
+}
 </style>
 
 </head>
@@ -128,7 +172,10 @@ background:#ff4d88;
 
 <h2><i class="fab fa-instagram"></i> Instagram Video Downloader</h2>
 
-<input id="url" placeholder="Paste Instagram Reel / Post Link">
+<div class="input-box">
+  <input id="url" placeholder="Paste Instagram Reel / Post Link">
+  <button class="paste-btn" onclick="pasteText()">Paste</button>
+</div>
 
 <br>
 
@@ -140,8 +187,16 @@ background:#ff4d88;
 
 <script>
 
-function download(){
+async function pasteText(){
+try{
+const text = await navigator.clipboard.readText()
+document.getElementById("url").value = text
+}catch(err){
+alert("Paste not allowed. Please paste manually.")
+}
+}
 
+function download(){
 let url=document.getElementById("url").value
 
 if(!url){
@@ -150,7 +205,6 @@ return
 }
 
 window.open(`https://download-fc72.onrender.com/download?url=${encodeURIComponent(url)}`)
-
 }
 
 </script>
