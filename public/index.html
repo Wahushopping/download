@@ -202,7 +202,9 @@ background:#475569;
 <br>
 
 <button onclick="download()">Download</button>
-
+<p id="loadingText" style="display:none; margin-top:10px; color:#22c55e;">
+  ⏳ Downloading... Please wait
+</p>
 </div>
 
 </div>
@@ -219,14 +221,35 @@ alert("Paste not allowed. Please paste manually.")
 }
 
 function download(){
-let url=document.getElementById("url").value
 
-if(!url){
-alert("Please enter Instagram URL")
-return
-}
+  let url = document.getElementById("url").value
 
-window.open(`https://download-fc72.onrender.com/download?url=${encodeURIComponent(url)}`)
+  if(!url){
+    alert("Please enter Instagram URL")
+    return
+  }
+
+  // show loading text
+  document.getElementById("loadingText").style.display = "block"
+
+  // disable button (optional)
+  event.target.innerText = "Downloading..."
+  event.target.disabled = true
+
+  // create hidden iframe (NO blank page 🔥)
+  let iframe = document.createElement("iframe")
+  iframe.style.display = "none"
+
+  iframe.src = `https://download-fc72.onrender.com/download?url=${encodeURIComponent(url)}`
+
+  document.body.appendChild(iframe)
+
+  // reset after few seconds
+  setTimeout(()=>{
+    document.getElementById("loadingText").style.display = "none"
+    event.target.innerText = "Download"
+    event.target.disabled = false
+  },5000)
 }
 
 </script>
